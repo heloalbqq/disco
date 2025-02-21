@@ -4,15 +4,98 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>heloisa</title>
-    <link rel="stylesheet" href="style.css" />
+    <style>body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    
+    h1 {
+      color: #ff6b6b;
+      margin-top: 20px;
+    }
+    
+    #vinyl-container {
+      display: inline-block;
+      margin-top: 50px;
+      position: relative;
+    }
+    
+    svg {
+      width: 500px;
+      height: 600px;
+    }
+    
+    #play-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #d24a89;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    #play-button:hover {
+      background-color: #ff3b3b;
+    }
+    
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    
+    .spin {
+      animation: spin .5s linear infinite;
+    }</style>
   </head>
   <body>
     <div class="record-player">
       <div id="player-container"></div>
       <button id="play-button">Play</button>
       <audio id="love-song" src="ReggaeBrasil-malandrinha.mp3"></audio>
-      <h4>It's the little things!</h4>
-      <script src="script.js"></script>
+      <h4></h4>
+      <script> document.addEventListener('DOMContentLoaded', () => {
+        fetch("./vinyl.svg")
+          .then((response) => response.text())
+          .then((svg) => {
+            const playerContainer = document.getElementById("player-container");
+            playerContainer.innerHTML = svg;
+    
+            const vinyl = document.querySelector("svg");
+            const playButton = document.getElementById("play-button");
+            const audio = document.getElementById("love-song");
+            let isPlaying = false;
+    
+            playButton.addEventListener("click", () => {
+              if (!isPlaying) {
+                vinyl.style.animation = "spin 5s linear infinite";
+    
+                audio.play();
+    
+                playButton.textContent = "Pause";
+                isPlaying = true;
+              } else {
+                vinyl.style.animation = "";
+    
+                audio.pause();
+    
+                playButton.textContent = "Play";
+                isPlaying = false;
+              }
+            });
+          })
+          .catch((err) => console.error("Error loading SVG:", err));
+    });g</script>
     </div>
   </body>
+
 </html>
